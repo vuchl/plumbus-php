@@ -1,16 +1,16 @@
 #default profile
-features: %paths.base%/features
 
 default:
   suites:
     plumbus:
+      paths:    [ %paths.base%/tests/features ]
       contexts: [ Remotelyliving\PlumbusPhp\Contexts\PlumbusContext ]
 
   formatters:
     pretty: true
 
   autoload:
-    '': %paths.base%/features/bootstrap
+    '': %paths.base%/tests/features/bootstrap
 
 ci:
   formatter:

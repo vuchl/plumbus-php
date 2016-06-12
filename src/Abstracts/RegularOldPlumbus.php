@@ -10,7 +10,7 @@ abstract class RegularOldPlumbus {
   public function __construct( Plumbusable $plumbusable ) {
 
     if ( !$plumbusable->isPlumbusable() ) {
-      throw new NonPlumbusableStateException( 'I cannot make a plumbus out of this crap, Summer' );
+      throw new NonPlumbusableStateException( "This plumbusable isn't plumbussy enough yet." );
     }
 
   } // __construct

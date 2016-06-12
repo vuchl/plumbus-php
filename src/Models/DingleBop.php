@@ -45,9 +45,9 @@ class DingleBop implements Plumbusable {
   } // __construct
 
   /**
-   * @param \Remotelyliving\PlumbusPhp\Models\Schleem|null $schleem
+   * @param \Remotelyliving\PlumbusPhp\Models\Schleem $schleem
    */
-  public function handleSmoothing( Schleem $schleem = null ) {
+  public function handleSmoothing( Schleem $schleem ) {
 
     $this->_setWasSmoothedWithSchleem( (bool) $schleem );
 
@@ -100,19 +100,13 @@ class DingleBop implements Plumbusable {
    */
   public function areSeveralHizzardsInTheWay() {
 
-    $are_several_hizzards = ( count( $this->_hizzards ) >= self::LEAST_SEVERAL_HIZZARDS_COUNT );
-
-    if ( !$are_several_hizzards ) {
-      return false;
-    }
-
     foreach ( $this->_hizzards as $hizzard ) {
       if ( !$hizzard->isInTheWay() ) {
         return false;
       }
     }
 
-    return true;
+    return  ( count( $this->_hizzards ) >= self::LEAST_SEVERAL_HIZZARDS_COUNT );
 
   } // areSeveralHizzardsInTheWay
 
@@ -140,7 +134,7 @@ class DingleBop implements Plumbusable {
   /**
    * @param bool $was_rubbed
    */
-  public function _setWasRubbedByFleeb( $was_rubbed ) {
+  private function _setWasRubbedByFleeb( $was_rubbed ) {
 
     $this->_was_rubbed_by_fleeb = (bool) $was_rubbed;
 

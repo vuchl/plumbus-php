@@ -1,6 +1,6 @@
 {
-    "name": "remotelyliving/plumbus.php",
-    "description": "A regular old plumbus",
+    "name": "remotelyliving/plumbus-php",
+    "description": "A regular old plumbus, written in phplumbus",
     "require-dev": {
         "phpunit/phpunit": "^5.4",
         "behat/behat": "^3.0.4"
@@ -9,7 +9,7 @@
     "authors": [
         {
             "name": "Christian Thomas",
-            "email": "chthomas@adobe.com"
+            "email": "christian.h.thomas@me.com"
         }
     ],
     "minimum-stability": "stable",
@@ -19,6 +19,6 @@
         }
     },
     "autoload-dev": {
-        "psr-4": { "Remotelyliving\\PlumbusPhp\\": "features/bootstrap/" }
+        "psr-4": { "Remotelyliving\\PlumbusPhp\\": "tests/features/bootstrap/" }
     }
 }

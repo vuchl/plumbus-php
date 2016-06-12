@@ -1,9 +1,11 @@
 <?php
 
-use Remotelyliving\PlumbusPhp\Factories\PlumbusFactory;
-use Remotelyliving\PlumbusPhp\Models\Home;
+namespace Remotelyliving\PlumbusPhp\Models;
 
-class HomeTest extends PHPUnit_Framework_TestCase {
+use Remotelyliving\PlumbusPhp\Factories\PlumbusFactory;
+use Remotelyliving\PlumbusPhp\Plumbus;
+
+class HomeTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * @test
@@ -13,6 +15,7 @@ class HomeTest extends PHPUnit_Framework_TestCase {
     $home = new Home( ( new PlumbusFactory() )->make() );
 
     $this->assertTrue( $home->hasPlumbus() );
+    $this->assertInstanceOf( Plumbus::class, $home->getPlumbus() );
 
   } // homeHasPlumbus
 

@@ -42,7 +42,7 @@ class Grumbo {
   public function push( DingleBop $dinglebop ) {
 
     if ( !$dinglebop->wasSmoothedWithSchleem() ) {
-      throw new PlumbusPhpException( 'This dinglebop has not been smoothed, wwwwwwwhat is this Jerry?!' );
+      throw new PlumbusPhpException( 'This dinglebop has not been smoothed with schleem yet.' );
     }
 
     $this->dinglebop = $dinglebop;
@@ -57,11 +57,11 @@ class Grumbo {
   public function extractDinglebop() {
 
     if ( isset( $this->ploobis ) ) {
-      throw new PlumbusPhpException( 'Morty, just shave the ploobis already, Morty.' );
+      throw new PlumbusPhpException( 'Just shave the ploobis already.' );
     }
 
     if ( !$this->_haveAllChumblesBeenRubbed() ) {
-      throw new PlumbusPhpException( 'Gerry, you idiot, you should totally rub these chumbles. Just look at em!' );
+      throw new PlumbusPhpException( 'You should totally  have rubbed these chumbles. Just look at em!' );
     }
 
     return $this->dinglebop;
