@@ -20,7 +20,10 @@ $plumbus         = $plumbus_factory->make();
 
 ### Tests
 
-Run `vendor/bin/behat` to see the whole script from this segment.
+Clone repo and `composer install`
+
+Run `vendor/bin/behat` to see the whole script from the plumbus segment.
+
 Run `vendor/bin/phpunit` to really just watch some tests pass.
 
 
