@@ -9,7 +9,7 @@ class Schlami {
   /**
    * @param \Remotelyliving\PlumbusPhp\Models\DingleBop $dingleBop
    */
-  public static function spitOnDingleBop( DingleBop $dingleBop ) {
+  public function spitOnDingleBop( DingleBop $dingleBop ) {
 
     $dingleBop->setWasSpatOnBySchlami( true );
 
@@ -18,7 +18,7 @@ class Schlami {
   /**
    * @param \Remotelyliving\PlumbusPhp\Models\DingleBop $dingleBop
    */
-  public static function rubDingleBop( DingleBop $dingleBop ) {
+  public function rubDingleBop( DingleBop $dingleBop ) {
 
     $dingleBop->setWasRubbedBySchlami( true );
 

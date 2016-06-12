@@ -7,13 +7,19 @@ use Remotelyliving\PlumbusPhp\Managers\Blamf;
 class GrumboTest extends \PHPUnit_Framework_TestCase {
 
   /**
+   * @var \Remotelyliving\PlumbusPhp\Managers\Blamf
+   */
+  private $_blamf;
+
+  /**
    * @var \Remotelyliving\PlumbusPhp\Models\Grumbo
    */
   private $_sut;
 
   public function setUp() {
 
-    $this->_sut = new Grumbo();
+    $this->_blamf = new Blamf();
+    $this->_sut   = new Grumbo();
 
   } // setUp
 
@@ -129,7 +135,7 @@ class GrumboTest extends \PHPUnit_Framework_TestCase {
 
     unset( $this->_sut->ploobis );
 
-    Blamf::rubAgainstTheChumbles( $this->_sut );
+    $this->_blamf->rubAgainstTheChumbles( $this->_sut );
 
     $this->assertInstanceOf( DingleBop::class, $this->_sut->extractDinglebop() );
 

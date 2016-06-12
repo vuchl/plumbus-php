@@ -11,9 +11,15 @@ class SchlamiTest extends \PHPUnit_Framework_TestCase {
    */
   private $_dinglebop;
 
+  /**
+   * @var \Remotelyliving\PlumbusPhp\Managers\Schlami
+   */
+  private $_sut;
+
   public function setUp() {
 
     $this->_dinglebop = $this->createMock( DingleBop::class );
+    $this->_sut       = new Schlami();
 
   } // setUp
 
@@ -35,7 +41,7 @@ class SchlamiTest extends \PHPUnit_Framework_TestCase {
       ->method( 'setWasSpatOnBySchlami' )
       ->with( true );
 
-    Schlami::spitOnDingleBop( $this->_dinglebop );
+    $this->_sut->spitOnDingleBop( $this->_dinglebop );
 
   } // spitOnDingleBop
 
@@ -48,7 +54,7 @@ class SchlamiTest extends \PHPUnit_Framework_TestCase {
       ->method( 'setWasRubbedBySchlami' )
       ->with( true );
 
-    Schlami::rubDingleBop( $this->_dinglebop );
+    $this->_sut->rubDingleBop( $this->_dinglebop );
 
   } // rubDingleBop
 

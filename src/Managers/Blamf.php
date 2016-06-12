@@ -2,6 +2,7 @@
 
 namespace Remotelyliving\PlumbusPhp\Managers;
 
+use Remotelyliving\PlumbusPhp\Exceptions\OutOfSchleemException;
 use Remotelyliving\PlumbusPhp\Models\DingleBop;
 use Remotelyliving\PlumbusPhp\Models\Fleeb;
 use Remotelyliving\PlumbusPhp\Models\Grumbo;
@@ -9,18 +10,18 @@ use Remotelyliving\PlumbusPhp\Models\Schleem;
 
 class Blamf {
 
-  const FLEEB_DEFAULT_PEICES = 6;
+  const FLEEB_DEFAULT_PIECES = 6;
 
   /**
    * @param \Remotelyliving\PlumbusPhp\Models\Fleeb $fleeb
    *
    * @return array
    */
-  public static function cutFleeb( Fleeb $fleeb ) {
+  public function cutFleeb( Fleeb $fleeb ) {
 
     $pieces = [];
 
-    while ( count( $pieces ) < self::FLEEB_DEFAULT_PEICES ) {
+    while ( count( $pieces ) < self::FLEEB_DEFAULT_PIECES ) {
       $pieces[] = clone $fleeb;
     }
 
@@ -31,7 +32,7 @@ class Blamf {
   /**
    * @param \Remotelyliving\PlumbusPhp\Models\Grumbo $grumbo
    */
-  public static function shavePloobis( Grumbo $grumbo ) {
+  public function shavePloobis( Grumbo $grumbo ) {
 
     unset( $grumbo->ploobis );
 
@@ -42,7 +43,7 @@ class Blamf {
    *
    * @return \Remotelyliving\PlumbusPhp\Models\DingleBop
    */
-  public static function shaveGrumboAway( Grumbo $grumbo ) {
+  public function shaveGrumboAway( Grumbo $grumbo ) {
 
     return $grumbo->extractDinglebop();
 
@@ -51,7 +52,7 @@ class Blamf {
   /**
    * @param \Remotelyliving\PlumbusPhp\Models\Grumbo $grumbo
    */
-  public static function rubAgainstTheChumbles( Grumbo $grumbo ) {
+  public function rubAgainstTheChumbles( Grumbo $grumbo ) {
     
     foreach ( $grumbo->chumbles as $chumble ) {
       $chumble->setWasRubbedByBlamf( true );
@@ -64,11 +65,19 @@ class Blamf {
    * @param \Remotelyliving\PlumbusPhp\Models\Schleem   $schleem
    *
    * @return \Remotelyliving\PlumbusPhp\Models\Schleem
+   * 
+   * @throws \Remotelyliving\PlumbusPhp\Exceptions\OutOfSchleemException
    */
-  public static function smoothDinglebopWithSchleem( DingleBop $dingleBop, Schleem $schleem ) {
+  public function smoothDinglebopWithSchleem( DingleBop $dingleBop, Schleem $schleem ) {
+
+    if ( $schleem->isUsedUp() ) {
+      throw new OutOfSchleemException();
+    }
 
     $dingleBop->handleSmoothing( $schleem );
 
+    $schleem->markSchleemAsUsed();
+    
     return $schleem;
 
   } // smoothDinglebopWithSchleem
@@ -77,7 +86,7 @@ class Blamf {
    * @param \Remotelyliving\PlumbusPhp\Models\DingleBop $dingleBop
    * @param \Remotelyliving\PlumbusPhp\Models\Fleeb     $fleeb
    */
-  public static function rubDinglebopWithFleeb( DingleBop $dingleBop, Fleeb $fleeb ) {
+  public function rubDinglebopWithFleeb( DingleBop $dingleBop, Fleeb $fleeb ) {
     
     $dingleBop->handleRubbing( $fleeb );
     

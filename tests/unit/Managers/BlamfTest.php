@@ -2,6 +2,7 @@
 
 namespace Remotelyliving\PlumbusPhp\Managers;
 
+use Remotelyliving\PlumbusPhp\Exceptions\OutOfSchleemException;
 use Remotelyliving\PlumbusPhp\Models\Chumble;
 use Remotelyliving\PlumbusPhp\Models\DingleBop;
 use Remotelyliving\PlumbusPhp\Models\Fleeb;
@@ -15,9 +16,15 @@ class BlamfTest extends \PHPUnit_Framework_TestCase {
    */
   private $_dinglebop;
 
+  /**
+   * @var \Remotelyliving\PlumbusPhp\Managers\Blamf
+   */
+  private $_sut;
+
   public function setUp() {
 
     $this->_dinglebop = $this->createMock( DingleBop::class );
+    $this->_sut       = new Blamf();
 
   } // setUp
 
@@ -35,9 +42,9 @@ class BlamfTest extends \PHPUnit_Framework_TestCase {
    */
   public function cutFleeb() {
 
-    $fleeb_pieces = Blamf::cutFleeb( new Fleeb() );
+    $fleeb_pieces = $this->_sut->cutFleeb( new Fleeb() );
 
-    $this->assertEquals( Blamf::FLEEB_DEFAULT_PEICES, count( $fleeb_pieces ) );
+    $this->assertEquals( Blamf::FLEEB_DEFAULT_PIECES, count( $fleeb_pieces ) );
 
     foreach ( $fleeb_pieces as $fleeb ) {
       $this->assertInstanceOf( Fleeb::class, $fleeb );
@@ -52,7 +59,7 @@ class BlamfTest extends \PHPUnit_Framework_TestCase {
 
     $grumbo = new Grumbo();
 
-    Blamf::shavePloobis( $grumbo );
+    $this->_sut->shavePloobis( $grumbo );
 
     $this->assertFalse( isset( $grumbo->ploobis ) );
 
@@ -71,10 +78,10 @@ class BlamfTest extends \PHPUnit_Framework_TestCase {
 
     $grumbo->push( $this->_dinglebop );
 
-    Blamf::shavePloobis( $grumbo );
-    Blamf::rubAgainstTheChumbles( $grumbo );
+    $this->_sut->shavePloobis( $grumbo );
+    $this->_sut->rubAgainstTheChumbles( $grumbo );
 
-    $this->assertSame( $this->_dinglebop, Blamf::shaveGrumboAway( $grumbo ) );
+    $this->assertSame( $this->_dinglebop, $this->_sut->shaveGrumboAway( $grumbo ) );
 
   } // shaveGrumboAway
 
@@ -91,7 +98,7 @@ class BlamfTest extends \PHPUnit_Framework_TestCase {
 
     $grumbo->push( $this->_dinglebop );
 
-    Blamf::rubAgainstTheChumbles( $grumbo );
+    $this->_sut->rubAgainstTheChumbles( $grumbo );
 
     $this->assertEquals( Grumbo::CHUMBLE_PER_GRUMBO_COUNT, count( $grumbo->chumbles ) );
 
@@ -112,12 +119,30 @@ class BlamfTest extends \PHPUnit_Framework_TestCase {
       ->method( 'handleSmoothing' )
       ->with( $schleem );
 
-    $repurposed_schleem = Blamf::smoothDinglebopWithSchleem( $this->_dinglebop, $schleem );
+    $repurposed_schleem = $this->_sut->smoothDinglebopWithSchleem( $this->_dinglebop, $schleem );
 
     $this->assertSame( $schleem, $repurposed_schleem );
 
 
   } // smoothDinglebopWithSchleem
+
+  /**
+   * @test
+   * @expectedException \Remotelyliving\PlumbusPhp\Exceptions\OutOfSchleemException
+   */
+  public function smoothDinglebopWithSchleemUsedUp() {
+
+    $schleem = $this->createMock( Schleem::class );
+    $schleem
+      ->method( 'isUsedUp' )
+      ->willReturn( true );
+
+    $this->_dinglebop->expects( $this->never() )
+      ->method( 'handleSmoothing' );
+
+    $this->_sut->smoothDinglebopWithSchleem( $this->_dinglebop, $schleem );
+
+  } // smoothDinglebopWithSchleemUsedUp
 
   /**
    * @test
@@ -130,7 +155,7 @@ class BlamfTest extends \PHPUnit_Framework_TestCase {
       ->method( 'handleRubbing' )
       ->with( $fleeb );
 
-    Blamf::rubDinglebopWithFleeb( $this->_dinglebop, $fleeb );
+    $this->_sut->rubDinglebopWithFleeb( $this->_dinglebop, $fleeb );
 
   } // rubDinglebopWithFleeb
 

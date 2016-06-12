@@ -41,6 +41,20 @@ class PlumbusContext implements Context, SnippetAcceptingContext {
   private $_schlami;
 
   /**
+   * @var \Remotelyliving\PlumbusPhp\Managers\Blamf
+   */
+  private $_blamf;
+
+  /**
+   * @BeforeScenario
+   */
+  public function beforeScenario() {
+
+    $this->_blamf = new Blamf();
+
+  } // beforeSuite
+
+  /**
    * @Given everyone has a plumbus in their home
    */
   public function everyoneHasAPlumbusInTheirHome() {
@@ -66,7 +80,7 @@ class PlumbusContext implements Context, SnippetAcceptingContext {
    */
   public function theySmoothItOutWithABunchOfSchleem() {
     
-    Blamf::smoothDinglebopWithSchleem( $this->_dingle_bop, new Schleem() );
+    $this->_blamf->smoothDinglebopWithSchleem( $this->_dingle_bop, new Schleem() );
 
   } // theySmoothItOutWithABunchOfSchleem
 
@@ -75,7 +89,9 @@ class PlumbusContext implements Context, SnippetAcceptingContext {
    */
   public function theSchleemIsThenRepurposedForLaterBatches() {
 
-    // throw new PendingException();
+    $schleem = $this->_blamf->smoothDinglebopWithSchleem( new DingleBop(), new Schleem() );
+
+    Assert::assertFalse( $schleem->isUsedUp() );
 
   } // theSchleemIsThenRepurposedForLaterBatches
 
@@ -96,7 +112,7 @@ class PlumbusContext implements Context, SnippetAcceptingContext {
     $this->_grumbo = new Grumbo();
     $this->_grumbo->push( $this->_dingle_bop );
 
-    Blamf::rubDinglebopWithFleeb( $this->_grumbo->dinglebop, new Fleeb( new FleebJuice() ) );
+    $this->_blamf->rubDinglebopWithFleeb( $this->_grumbo->dinglebop, new Fleeb( new FleebJuice() ) );
 
     Assert::assertSame( $this->_dingle_bop, $this->_grumbo->dinglebop );
 
@@ -108,7 +124,7 @@ class PlumbusContext implements Context, SnippetAcceptingContext {
   public function itIsImportantThatTheFleebIsRubbedBecauseTheFleebHasAllOfTheFleebJuice() {
 
     try {
-      Blamf::rubDinglebopWithFleeb( $this->_grumbo->dinglebop, new Fleeb() );
+      $this->_blamf->rubDinglebopWithFleeb( $this->_grumbo->dinglebop, new Fleeb() );
     }
     catch( FleebHydrationException $e ) {
       return;
@@ -152,9 +168,9 @@ class PlumbusContext implements Context, SnippetAcceptingContext {
    */
   public function theyCutTheFleeb() {
 
-    $pieces = Blamf::cutFleeb( new Fleeb() );
+    $pieces = $this->_blamf->cutFleeb( new Fleeb() );
 
-    Assert::assertEquals( Blamf::FLEEB_DEFAULT_PEICES, count( $pieces ) );
+    Assert::assertEquals( Blamf::FLEEB_DEFAULT_PIECES, count( $pieces ) );
 
     foreach ( $pieces as $piece_of_fleeb ) {
       Assert::assertInstanceOf( Fleeb::class, $piece_of_fleeb );
@@ -176,7 +192,7 @@ class PlumbusContext implements Context, SnippetAcceptingContext {
    */
   public function theBlamfsRubAgainstTheChumbles() {
 
-    Blamf::rubAgainstTheChumbles( $this->_grumbo );
+    $this->_blamf->rubAgainstTheChumbles( $this->_grumbo );
 
   } // theBlamfsRubAgainstTheChumbles
 
@@ -185,11 +201,11 @@ class PlumbusContext implements Context, SnippetAcceptingContext {
    */
   public function thePloobisAndGrumboAreShavedAway() {
 
-    Blamf::shavePloobis( $this->_grumbo );
+    $this->_blamf->shavePloobis( $this->_grumbo );
 
     Assert::assertFalse( isset( $this->_grumbo->ploobis ) );
 
-    $this->_dingle_bop = Blamf::shaveGrumboAway( $this->_grumbo );
+    $this->_dingle_bop = $this->_blamf->shaveGrumboAway( $this->_grumbo );
 
   } // thePloobisAndGrumboAreShavedAway
 

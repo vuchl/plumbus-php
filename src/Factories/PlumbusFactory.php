@@ -2,6 +2,7 @@
 
 namespace Remotelyliving\PlumbusPhp\Factories;
 
+use Remotelyliving\PlumbusPhp\Exceptions\OutOfSchleemException;
 use Remotelyliving\PlumbusPhp\Managers\Blamf;
 use Remotelyliving\PlumbusPhp\Managers\Schlami;
 use Remotelyliving\PlumbusPhp\Models\DingleBop;
@@ -13,10 +14,6 @@ use Remotelyliving\PlumbusPhp\Plumbus;
 
 class PlumbusFactory {
 
-  /**
-   * @var \Remotelyliving\PlumbusPhp\Models\FleebJuice
-   */
-  private $_fleeb_juice;
 
   /**
    * @var \Remotelyliving\PlumbusPhp\Models\Fleeb
@@ -24,14 +21,26 @@ class PlumbusFactory {
   private $_fleeb;
 
   /**
-   * @var \Remotelyliving\PlumbusPhp\Models\Schleem|null
+   * @var \Remotelyliving\PlumbusPhp\Managers\Schlami
    */
-  private $_schleem = null;
+  private $_schlami;
+
+  /**
+   * @var \Remotelyliving\PlumbusPhp\Managers\Blamf
+   */
+  private $_blamf;
+
+  /**
+   * @var \Remotelyliving\PlumbusPhp\Models\Schleem
+   */
+  private $_schleem;
 
   public function __construct() {
 
-    $this->_fleeb_juice = new FleebJuice();
-    $this->_fleeb       = new Fleeb( $this->_fleeb_juice );
+    $this->_fleeb   = new Fleeb( new FleebJuice() );
+    $this->_schlami = new Schlami();
+    $this->_blamf   = new Blamf();
+    $this->_schleem = new Schleem();
 
   } // __construct
 
@@ -39,29 +48,30 @@ class PlumbusFactory {
    * @return \Remotelyliving\PlumbusPhp\Plumbus
    */
   public function make() {
-  
-    if ( !$this->_schleem ) {
-      $this->_schleem = new Schleem();
-    }
 
     $dinglebop = new DingleBop();
 
     // re-purpose schleem
-    $this->_schleem = Blamf::smoothDinglebopWithSchleem( $dinglebop, $this->_schleem );
+    try {
+      $this->_schleem = $this->_blamf->smoothDinglebopWithSchleem( $dinglebop, $this->_schleem );
+    }
+    catch( OutOfSchleemException $e ) {
+      $this->_schleem = $this->_blamf->smoothDinglebopWithSchleem( $dinglebop, new Schleem() );
+    }
 
     $grumbo = new Grumbo();
     $grumbo->push( $dinglebop );
 
-    Blamf::rubDinglebopWithFleeb( $grumbo->dinglebop, $this->_fleeb );
+    $this->_blamf->rubDinglebopWithFleeb( $grumbo->dinglebop, $this->_fleeb );
 
-    Schlami::rubDingleBop( $grumbo->dinglebop );
-    Schlami::spitOnDingleBop( $grumbo->dinglebop );
+    $this->_schlami->rubDingleBop( $grumbo->dinglebop );
+    $this->_schlami->spitOnDingleBop( $grumbo->dinglebop );
 
-    Blamf::cutFleeb( $this->_fleeb );
-    Blamf::rubAgainstTheChumbles( $grumbo );
-    Blamf::shavePloobis( $grumbo );
+    $this->_blamf->cutFleeb( $this->_fleeb );
+    $this->_blamf->rubAgainstTheChumbles( $grumbo );
+    $this->_blamf->shavePloobis( $grumbo );
 
-    return new Plumbus( Blamf::shaveGrumboAway( $grumbo ) );
+    return new Plumbus( $this->_blamf->shaveGrumboAway( $grumbo ) );
 
   } // make
   
