@@ -1,0 +1,19 @@
+#default profile
+features: %paths.base%/features
+
+default:
+  suites:
+    plumbus:
+      contexts: [ Remotelyliving\PlumbusPhp\Contexts\PlumbusContext ]
+
+  formatters:
+    pretty: true
+
+  autoload:
+    '': %paths.base%/features/bootstrap
+
+ci:
+  formatter:
+    name: pretty,junit,html
+    parameters:
+      output_path: null,junit,behat_report.html
