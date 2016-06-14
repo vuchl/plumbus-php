@@ -2,4 +2,4 @@
 
 namespace Remotelyliving\PlumbusPhp\Exceptions;
 
-class OutOfSchleemException extends \Exception {} // FleebHydrationException
+class OutOfSchleemException extends \Exception {} // OutOfSchleemException
