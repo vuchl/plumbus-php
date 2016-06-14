@@ -2,4 +2,4 @@
 
 namespace Remotelyliving\PlumbusPhp\Exceptions;
 
-class NonPlumbusableStateException extends \Exception {} // FleebHydrationException
+class NonPlumbusableStateException extends \Exception {} // NonPlumbusableStateException
